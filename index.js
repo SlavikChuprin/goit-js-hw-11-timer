@@ -14,7 +14,6 @@ const time = dateSet.getTime() -  dateNow.getTime();
 
 let countdown = time;
 
-console.log(`~ countdown`, countdown);
 let days = Math.floor(countdown / (1000 * 60 * 60 * 24));
 
 let hours = Math.floor((countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
