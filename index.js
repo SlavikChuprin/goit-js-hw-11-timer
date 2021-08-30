@@ -1,39 +1,50 @@
-const ref={
-    valueDays:  document.querySelector('.value[data-value="days"]'),
-    valueHours:  document.querySelector('.value[data-value="hours"]'),
-    valueMins: document.querySelector('.value[data-value="mins"]'),
-    valueSecs:  document.querySelector('.value[data-value="secs"]'),
-};
 
-const dateNow = new Date();
-// const dataGet = (prompt('Введите дату в формате: year, month, date, hours, minutes, seconds, ms до которой надо посчитать время', '2021, 8, 1, 0, 0, 0, 0'));
-// const targetData = new Date(...(dataGet.split(',')));
-const targetData = new Date('Sep 1, 2021');
+class CountdownTimer {
 
-const time = targetData.getTime() -  dateNow.getTime();
+    constructor({selector, targetDate}) {
+        this.selector=selector;
+        this.targetDate=targetDate;
+        this.dateNow = Date.now();
+        this.time = this.targetDate.getTime() - this.dateNow;
+        this.refs = {
+        valueDays: document.querySelector('.value[data-value="days"]'),
+        valueHours: document.querySelector('.value[data-value="hours"]'),
+        valueMins: document.querySelector('.value[data-value="mins"]'),
+        valueSecs: document.querySelector('.value[data-value="secs"]'),
+        };
+    }
+    CountdownTimerStart() {
+       const intervalId = setInterval(() => {
+   
+         if (this.time !== 1000) {
+        const days = Math.floor(this.time / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((this.time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((this.time % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((this.time % (1000 * 60)) / 1000);
 
-let countdown = time;
+        this.time -= 1000;
+        this.refs.valueDays.textContent = this.padStart(days);
+        this.refs.valueHours.textContent = this.padStart(hours);
+        this.refs.valueMins.textContent = this.padStart(mins);
+        this.refs.valueSecs.textContent = this.padStart(secs);
 
-const intervalId= setInterval(()=>{
-    console.log(`targetData`, targetData);
-if(countdown !==1000 ){
-    const days = Math.floor(countdown / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const mins = Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60));
-    const secs = Math.floor((countdown % (1000 * 60)) / 1000);
-
-    countdown -= 1000;
-    ref.valueDays.textContent = padStart(days);
-    ref.valueHours.textContent = padStart(hours);
-    ref.valueMins.textContent= padStart(mins);
-    ref.valueSecs.textContent= padStart(secs);
-
-return;
+        return;
     };
-     clearInterval(intervalId);
-} , 1000 );
- 
-function padStart(a) {
-  return  String(a).padStart(2,"0");
+    clearInterval(intervalId);
+}, 1000);
+    }
+padStart(a) {
+    return String(a).padStart(2, "0");
 };
+}
+
+const countDown = new CountdownTimer({
+  selector: '#timer-1',
+  targetDate: new Date('Sep 1, 2021'),
+});
+console.log(`countDown`, countDown)
+
+
+countDown.CountdownTimerStart();
+
 
