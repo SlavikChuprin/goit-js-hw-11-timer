@@ -14,6 +14,7 @@ class CountdownTimer {
         };
     }
     CountdownTimerStart() {
+    console.log('targetDate',  this.targetDate);
       
     const intervalId = setInterval(() => {
         
